@@ -142,6 +142,17 @@ function saveFavorite(city) {
     renderFavorites();
 }
 
+function removeFavorite(city) {
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    favorites = favorites.filter(item => item !== city);
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+
+    renderFavorites();
+}
+
+
 function renderFavorites() {
     let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
@@ -149,11 +160,20 @@ function renderFavorites() {
 
     favorites.forEach(city => {
         const li = document.createElement("li");
-        li.textContent = city;
 
-        li.addEventListener("click", () => {
+        li.innerHTML = `
+        <span class="fav-city">${city}</span>
+        <button class="remove-btn">❌</button>
+        `;
+
+        li.querySelector(".fav-city").addEventListener("click", () => {
             cityInput.value = city;
             form.dispatchEvent(new Event("submit"));
+        });
+
+        li.querySelector(".remove-btn").addEventListener("click", (e) => {
+            e.stopPropagation();
+            removeFavorite(city);
         });
 
         favoritesList.appendChild(li);

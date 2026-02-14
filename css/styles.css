@@ -101,3 +101,22 @@ button:hover {
     border-radius: 8px;
     cursor: pointer;
 }
+
+.favorites li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remove-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    opacity: 0.8;
+}
