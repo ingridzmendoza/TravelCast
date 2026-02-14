@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clima y Viajes</title>
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Clima y Recomendaciones de Viaje</h1>
+        <p>Consulta el clima y descubre qué hacer en tu destino</p>
+    </header>
+
+    <main>
+        <section class="search-section">
+            <form id="searchForm">
+                <input type="text" id="cityInput" placeholder="Buscar ciudad..." autocomplete="off" required />
+                <button type="submit">Buscar</button>
+            </form>
+
+            <ul id="suggestions" class="suggestions"></ul>
+        </section>
+
+        <section id="weatherResult" class="weather-result hidden"></section>
+
+        <section id="forecast" class="forecast hidden"></section>
+
+        <section id="recommendations" class="recommendations hidden"></section>
+
+        <section class="favorites">
+            <h2>Ciudades Favoritas</h2>
+            <ul id="favoritesList"></ul>
+        </section>
+    </main>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
