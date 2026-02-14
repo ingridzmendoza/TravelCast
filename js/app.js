@@ -1,4 +1,4 @@
-import { getWeather, getForecast } from "./api.js";
+import { getForecast, getWeather } from "./api.js";
 import { getRecommendations } from "./recommendations.js";
 
 const form = document.getElementById("searchForm");
@@ -88,14 +88,15 @@ function showForecast(data) {
     );
 
     dailyForecast.forEach(day => {
-        const date = day.dt_txt.split(" ")[0];
+        const [year, month, dayNum] = day.dt_txt.split(" ")[0].split("-");
+        const formattedDate = `${dayNum}/${month}/${year}`;
         const temp = convertTemp(day.main.temp).toFixed(1);
         const desc = day.weather[0].description;
         const icon = day.weather[0].icon;
 
         forecastDiv.innerHTML += `
         <div class="forecast-day">
-            <p><strong>${date}</strong></p>
+            <p><strong>${formattedDate}</strong></p>
             <img src="https://openweathermap.org/img/wn/${icon}.png" />
             <p>${temp} °${currentUnit}</p>
             <p>${desc}</p>
@@ -134,7 +135,16 @@ function saveToHistory(city) {
 function renderHistory() {
     let history = JSON.parse(localStorage.getItem("history")) || [];
 
+    const historySection = document.getElementById("historySection");
+
     historyList.innerHTML = "";
+
+    if (history.length === 0) {
+        historySection.classList.add("hidden");
+        return;
+    }
+
+    historySection.classList.remove("hidden");
 
     history.forEach(city => {
         const li = document.createElement("li");
@@ -152,6 +162,7 @@ function renderHistory() {
         historyList.appendChild(li);
     });
 }
+
 
 function saveFavorite(city) {
     let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -177,7 +188,16 @@ function removeFavorite(city) {
 function renderFavorites() {
     let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
+    const favoritesSection = document.getElementById("favoritesSection");
+
     favoritesList.innerHTML = "";
+
+    if (favorites.length === 0) {
+        favoritesSection.classList.add("hidden");
+        return;
+    }
+
+    favoritesSection.classList.remove("hidden");
 
     favorites.forEach(city => {
         const li = document.createElement("li");
@@ -204,7 +224,6 @@ function renderFavorites() {
         favoritesList.appendChild(li);
     });
 }
-
 
 renderHistory();
 renderFavorites();
