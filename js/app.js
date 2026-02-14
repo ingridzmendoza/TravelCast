@@ -1,9 +1,11 @@
 import { getWeather, getForecast } from "./api.js";
+import { getRecommendations } from "./recommendations.js";
 
 const form = document.getElementById("searchForm");
 const cityInput = document.getElementById("cityInput");
 const weatherResult = document.getElementById("weatherResult");
 const forecastDiv = document.getElementById("forecast");
+const recommendationsDiv = document.getElementById("recommendations");
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -21,6 +23,8 @@ form.addEventListener("submit", async (e) => {
 
         const forecastData = await getForecast(city);
         showForecast(forecastData);
+
+        showRecommendations(weatherData.weather[0].main);
 
     } catch (error) {
         weatherResult.classList.remove("hidden");
@@ -47,7 +51,6 @@ function showForecast(data) {
 
     forecastDiv.innerHTML = "<h2>Pronóstico 5 días</h2>";
 
-    // Filtrar solo el pronóstico de las 12:00 PM
     const dailyForecast = data.list.filter(item =>
         item.dt_txt.includes("12:00:00")
     );
@@ -66,4 +69,18 @@ function showForecast(data) {
             <p>${desc}</p>
         </div>
         `;
-    });}
+    });
+}
+
+function showRecommendations(weatherType) {
+    recommendationsDiv.classList.remove("hidden");
+
+    const recs = getRecommendations(weatherType);
+
+    recommendationsDiv.innerHTML = `
+        <h2>Recomendaciones para tu viaje</h2>
+        <ul>
+        ${recs.map(item => `<li>${item}</li>`).join("")}
+        </ul>
+    `;
+}

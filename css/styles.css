@@ -65,3 +65,15 @@ button:hover {
     margin: 10px 0;
     border-radius: 10px;
 }
+
+.recommendations ul {
+    list-style: none;
+    padding: 0;
+}
+
+.recommendations li {
+    background: #e8f4ff;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 10px;
+}
