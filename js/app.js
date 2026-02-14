@@ -6,6 +6,9 @@ const cityInput = document.getElementById("cityInput");
 const weatherResult = document.getElementById("weatherResult");
 const forecastDiv = document.getElementById("forecast");
 const recommendationsDiv = document.getElementById("recommendations");
+const historyList = document.getElementById("historyList");
+const favoritesList = document.getElementById("favoritesList");
+
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -26,6 +29,8 @@ form.addEventListener("submit", async (e) => {
 
         showRecommendations(weatherData.weather[0].main);
 
+        saveToHistory(city);
+
     } catch (error) {
         weatherResult.classList.remove("hidden");
         weatherResult.innerHTML = `<p>Error: ${error.message}</p>`;
@@ -36,15 +41,24 @@ function showWeather(data) {
     weatherResult.classList.remove("hidden");
 
     weatherResult.innerHTML = `
-        <h2>${data.name}</h2>
-        <p>Temperatura: ${data.main.temp} °C</p>
-        <p>Clima: ${data.weather[0].description}</p>
+    <h2>${data.name}</h2>
+    <p>Temperatura: ${data.main.temp} °C</p>
+    <p>Clima: ${data.weather[0].description}</p>
         <img
         src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"
         alt="Icono del clima"
         />
+
+        <button class="favorite-btn" id="favBtn">
+        Agregar a favoritos
+        </button>
     `;
+
+    document.getElementById("favBtn").addEventListener("click", () => {
+        saveFavorite(data.name);
+    });
 }
+
 
 function showForecast(data) {
     forecastDiv.classList.remove("hidden");
@@ -84,3 +98,67 @@ function showRecommendations(weatherType) {
         </ul>
     `;
 }
+
+function saveToHistory(city) {
+    let history = JSON.parse(localStorage.getItem("history")) || [];
+
+    history = history.filter(item => item !== city);
+
+    history.unshift(city);
+
+    history = history.slice(0, 5);
+
+    localStorage.setItem("history", JSON.stringify(history));
+
+    renderHistory();
+}
+
+function renderHistory() {
+    let history = JSON.parse(localStorage.getItem("history")) || [];
+
+    historyList.innerHTML = "";
+
+    history.forEach(city => {
+        const li = document.createElement("li");
+        li.textContent = city;
+
+        li.addEventListener("click", () => {
+            cityInput.value = city;
+            form.dispatchEvent(new Event("submit"));
+        });
+
+        historyList.appendChild(li);
+    });
+}
+
+function saveFavorite(city) {
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    if (!favorites.includes(city)) {
+        favorites.push(city);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+    }
+
+    renderFavorites();
+}
+
+function renderFavorites() {
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    favoritesList.innerHTML = "";
+
+    favorites.forEach(city => {
+        const li = document.createElement("li");
+        li.textContent = city;
+
+        li.addEventListener("click", () => {
+            cityInput.value = city;
+            form.dispatchEvent(new Event("submit"));
+        });
+
+        favoritesList.appendChild(li);
+    });
+}
+
+renderHistory();
+renderFavorites();

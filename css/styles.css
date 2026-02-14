@@ -77,3 +77,27 @@ button:hover {
     padding: 10px;
     border-radius: 10px;
 }
+
+.history li,
+.favorites li {
+    background: #f9f9f9;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.history li:hover,
+.favorites li:hover {
+    background: #eaeaea;
+}
+
+.favorite-btn {
+    margin-top: 10px;
+    background: gold;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
