@@ -1,4 +1,4 @@
-const API_KEY = "134ca3076d8abe59c7ba2301a64fc736";
+const API_KEY = "leaked_key_overwrite";
 
 export async function getWeather(city) {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=es`;
