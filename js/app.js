@@ -9,6 +9,10 @@ const recommendationsDiv = document.getElementById("recommendations");
 const historyList = document.getElementById("historyList");
 const favoritesList = document.getElementById("favoritesList");
 
+let currentUnit = "C";
+let lastWeatherData = null;
+let lastForecastData = null;
+
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -125,6 +129,10 @@ function renderHistory() {
         li.addEventListener("click", () => {
             cityInput.value = city;
             form.dispatchEvent(new Event("submit"));
+
+            document.getElementById("weatherResult").scrollIntoView({
+                behavior: "smooth"
+            });
         });
 
         historyList.appendChild(li);
@@ -152,7 +160,6 @@ function removeFavorite(city) {
     renderFavorites();
 }
 
-
 function renderFavorites() {
     let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
@@ -166,9 +173,13 @@ function renderFavorites() {
         <button class="remove-btn">❌</button>
         `;
 
-        li.querySelector(".fav-city").addEventListener("click", () => {
+        li.addEventListener("click", () => {
             cityInput.value = city;
             form.dispatchEvent(new Event("submit"));
+
+            document.getElementById("weatherResult").scrollIntoView({
+                behavior: "smooth"
+            });
         });
 
         li.querySelector(".remove-btn").addEventListener("click", (e) => {
@@ -179,6 +190,7 @@ function renderFavorites() {
         favoritesList.appendChild(li);
     });
 }
+
 
 renderHistory();
 renderFavorites();
