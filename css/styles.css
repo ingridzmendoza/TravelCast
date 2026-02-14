@@ -120,3 +120,12 @@ button:hover {
 .remove-btn:hover {
     opacity: 0.8;
 }
+
+.unit-btn {
+    margin-left: 10px;
+    background: black;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}

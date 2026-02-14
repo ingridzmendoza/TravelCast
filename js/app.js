@@ -35,6 +35,10 @@ form.addEventListener("submit", async (e) => {
 
         saveToHistory(city);
 
+        lastWeatherData = weatherData;
+        lastForecastData = forecastData;
+
+
     } catch (error) {
         weatherResult.classList.remove("hidden");
         weatherResult.innerHTML = `<p>Error: ${error.message}</p>`;
@@ -44,11 +48,16 @@ form.addEventListener("submit", async (e) => {
 function showWeather(data) {
     weatherResult.classList.remove("hidden");
 
+    const temp = convertTemp(data.main.temp).toFixed(1);
+
     weatherResult.innerHTML = `
     <h2>${data.name}</h2>
-    <p>Temperatura: ${data.main.temp} °C</p>
+
+    <p>Temperatura: ${temp} °${currentUnit}</p>
+
     <p>Clima: ${data.weather[0].description}</p>
-        <img
+
+    <img
         src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"
         alt="Icono del clima"
         />
@@ -56,13 +65,18 @@ function showWeather(data) {
         <button class="favorite-btn" id="favBtn">
         Agregar a favoritos
         </button>
+
+        <button class="unit-btn" id="unitBtn">
+        Cambiar a °${currentUnit === "C" ? "F" : "C"}
+        </button>
     `;
 
     document.getElementById("favBtn").addEventListener("click", () => {
         saveFavorite(data.name);
     });
-}
 
+    document.getElementById("unitBtn").addEventListener("click", toggleUnit);
+}
 
 function showForecast(data) {
     forecastDiv.classList.remove("hidden");
@@ -75,7 +89,7 @@ function showForecast(data) {
 
     dailyForecast.forEach(day => {
         const date = day.dt_txt.split(" ")[0];
-        const temp = day.main.temp;
+        const temp = convertTemp(day.main.temp).toFixed(1);
         const desc = day.weather[0].description;
         const icon = day.weather[0].icon;
 
@@ -83,7 +97,7 @@ function showForecast(data) {
         <div class="forecast-day">
             <p><strong>${date}</strong></p>
             <img src="https://openweathermap.org/img/wn/${icon}.png" />
-            <p>${temp} °C</p>
+            <p>${temp} °${currentUnit}</p>
             <p>${desc}</p>
         </div>
         `;
@@ -194,3 +208,15 @@ function renderFavorites() {
 
 renderHistory();
 renderFavorites();
+
+function convertTemp(tempC) {
+    if (currentUnit === "C") return tempC;
+    return (tempC * 9) / 5 + 32;
+}
+
+function toggleUnit() {
+    currentUnit = currentUnit === "C" ? "F" : "C";
+
+    if (lastWeatherData) showWeather(lastWeatherData);
+    if (lastForecastData) showForecast(lastForecastData);
+}
