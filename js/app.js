@@ -63,7 +63,7 @@ function showWeather(data) {
         />
 
         <button class="favorite-btn" id="favBtn">
-        Agregar a favoritos
+        Agregar a favoritos   ♥
         </button>
 
         <button class="unit-btn" id="unitBtn">
