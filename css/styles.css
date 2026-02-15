@@ -90,6 +90,19 @@ button:hover {
     display: none;
 }
 
+.weather-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+@media (max-width: 768px) {
+    .weather-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
 .weather-result,
 .forecast,
 .recommendations,
@@ -103,16 +116,47 @@ button:hover {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
 }
 
+.weather-result, .forecast {
+    align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+}
+
+.weather-result p {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+
+.weather-icon-box {
+    background: #F3E2EB;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 14px;
+    border-radius: 18px;
+
+    margin: 1rem auto;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-height: 160px;
+
+}
+
+.weather-icon-box img {
+    width: 120px;
+    height: 120px;
+}
+
+
 h2 {
     margin-top: 0;
     font-size: 1.3rem;
     color: var(--primary);
 }
 
-.weather-result img {
-    width: 80px;
-    margin: 0.8rem 0;
-}
+
 
 .favorite-btn,
 .unit-btn {

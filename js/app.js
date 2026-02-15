@@ -57,10 +57,12 @@ function showWeather(data) {
 
     <p>Clima: ${data.weather[0].description}</p>
 
-    <img
+    <div class="weather-icon-box">
+        <img
         src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"
         alt="Icono del clima"
         />
+    </div>
 
         <button class="favorite-btn" id="favBtn">
         Agregar a favoritos   ♥
