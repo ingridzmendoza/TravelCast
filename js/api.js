@@ -1,4 +1,4 @@
-import { API_KEY } from "./config.js";
+const API_KEY = "9fab128bd5e2214d1f292763d3630877";
 
 let failureCount = 0;
 let circuitOpen = false;
