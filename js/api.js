@@ -71,3 +71,9 @@ export async function getForecast(city) {
 
     return await fetchWithRetry(url);
 }
+
+export async function getCitySuggestions(query) {
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${API_KEY}`;
+
+    return await fetchWithRetry(url);
+}

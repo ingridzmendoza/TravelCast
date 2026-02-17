@@ -22,10 +22,13 @@
         <section class="search-section">
             <form id="searchForm">
                 <input type="text" id="cityInput" placeholder="Buscar ciudad..." autocomplete="off" required />
+
+                <ul id="suggestions" class="suggestions-list hidden"></ul>
+
                 <button type="submit">Buscar</button>
             </form>
-
         </section>
+
 
         <div class="weather-layout">
             <section id="weatherResult" class="weather-result hidden"></section>

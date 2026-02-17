@@ -1,5 +1,6 @@
-import { getForecast, getWeather } from "./api.js";
+import { getCitySuggestions, getForecast, getWeather } from "./api.js";
 import { getRecommendations } from "./recommendations.js";
+
 
 const form = document.getElementById("searchForm");
 const cityInput = document.getElementById("cityInput");
@@ -8,6 +9,8 @@ const forecastDiv = document.getElementById("forecast");
 const recommendationsDiv = document.getElementById("recommendations");
 const historyList = document.getElementById("historyList");
 const favoritesList = document.getElementById("favoritesList");
+const suggestionsBox = document.getElementById("suggestions");
+
 
 let currentUnit = "C";
 let lastWeatherData = null;
@@ -106,6 +109,47 @@ function showForecast(data) {
         `;
     });
 }
+
+function showSuggestions(cities) {
+    suggestionsBox.innerHTML = "";
+
+    if (cities.length === 0) {
+        suggestionsBox.classList.add("hidden");
+        return;
+    }
+
+    suggestionsBox.classList.remove("hidden");
+
+    cities.forEach(city => {
+        const li = document.createElement("li");
+
+        li.textContent = `${city.name}, ${city.country}`;
+
+        li.addEventListener("click", () => {
+            cityInput.value = city.name;
+            suggestionsBox.classList.add("hidden");
+        });
+
+        suggestionsBox.appendChild(li);
+    });
+}
+
+
+let debounceTimer;
+
+cityInput.addEventListener("input", () => {
+    clearTimeout(debounceTimer);
+
+    debounceTimer = setTimeout(async () => {
+        const query = cityInput.value.trim();
+
+        if (query.length < 2) return;
+
+        const cities = await getCitySuggestions(query);
+        showSuggestions(cities);
+
+    }, 400);
+});
 
 function showRecommendations(weatherType) {
     recommendationsDiv.classList.remove("hidden");
