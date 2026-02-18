@@ -53,6 +53,8 @@ Las capturas de pantalla del proyecto se encuentran en:
 ```bash
 /assets/screenshots/
 ```
+### Web
+
 <p>
   <img src="assets/screenshots/forecast.png" width="250"><br>
   <img src="assets/screenshots/recs.png" width="250"><br>
@@ -60,3 +62,12 @@ Las capturas de pantalla del proyecto se encuentran en:
 </p>
 
 
+### Móvil
+<p>
+  <img src="assets/screenshots/lookup_mobile.jpg" width="250"><br>
+  <img src="assets/screenshots/showWeather_mobile.jpg" width="250"><br>
+  <img src="assets/screenshots/forecast_mobile.jpg" width="250"><br>
+  <img src="assets/screenshots/recs_mobile.jpg" width="250"><br>
+  <img src="assets/screenshots/favorites_mobile.jpg" width="250"><br>
+  <img src="assets/screenshots/history_mobile.jpg" width="250"><br>
+</p>
