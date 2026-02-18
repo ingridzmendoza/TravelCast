@@ -16,6 +16,10 @@ let currentUnit = "C";
 let lastWeatherData = null;
 let lastForecastData = null;
 
+function isValidCityName(city) {
+    const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s-]+$/;
+    return regex.test(city);
+}
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -24,6 +28,11 @@ form.addEventListener("submit", async (e) => {
 
     if (city === "") {
         alert("Por favor escribe una ciudad");
+        return;
+    }
+
+    if (!isValidCityName(city)) {
+        alert("Por favor escribe solo letras. No se permiten caracteres especiales.");
         return;
     }
 
@@ -41,12 +50,12 @@ form.addEventListener("submit", async (e) => {
         lastWeatherData = weatherData;
         lastForecastData = forecastData;
 
-
     } catch (error) {
         weatherResult.classList.remove("hidden");
         weatherResult.innerHTML = `<p>Error: ${error.message}</p>`;
     }
 });
+
 
 function showWeather(data) {
     weatherResult.classList.remove("hidden");
@@ -164,6 +173,29 @@ function showRecommendations(weatherType) {
     `;
 }
 
+async function loadDefaultCity() {
+    const defaultCity = "Tokyo";
+
+    cityInput.value = defaultCity;
+
+    try {
+        const weatherData = await getWeather(defaultCity);
+        showWeather(weatherData);
+
+        const forecastData = await getForecast(defaultCity);
+        showForecast(forecastData);
+
+        showRecommendations(weatherData.weather[0].main);
+
+        lastWeatherData = weatherData;
+        lastForecastData = forecastData;
+
+    } catch (error) {
+        weatherResult.innerHTML = `<p>Error cargando ciudad inicial</p>`;
+    }
+}
+
+
 function saveToHistory(city) {
     let history = JSON.parse(localStorage.getItem("history")) || [];
 
@@ -271,8 +303,6 @@ function renderFavorites() {
     });
 }
 
-renderHistory();
-renderFavorites();
 
 function convertTemp(tempC) {
     if (currentUnit === "C") return tempC;
@@ -285,3 +315,7 @@ function toggleUnit() {
     if (lastWeatherData) showWeather(lastWeatherData);
     if (lastForecastData) showForecast(lastForecastData);
 }
+
+renderHistory();
+renderFavorites();
+loadDefaultCity();
